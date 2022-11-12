@@ -69,6 +69,7 @@
   outline: none;
 }
 
+
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   background-color: coral;
@@ -117,28 +118,4 @@ label, .value {
   font-size: 14pt;
   font-weight: 250;
   color: white;
-}
-
-
-/*Chrome*/
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  input[type='range'] {
-    background-color: coral;
-  }
-}
-/** FF*/
-input[type="range"]::-moz-range-progress {
-  background-color: coral;
-  opacity: .7;
-}
-input[type="range"]::-moz-range-track {  
-  background-color: coral;
-}
-/* IE*/
-input[type="range"]::-ms-fill-lower {
-  background-color: coral; 
-  opacity: .7;
-}
-input[type="range"]::-ms-fill-upper {  
-  background-color: coral;
 }

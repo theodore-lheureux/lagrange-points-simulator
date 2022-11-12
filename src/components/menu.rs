@@ -47,6 +47,7 @@ pub fn Menu(cx: Scope) -> Element {
                                 "type": "range",
                                 min: "1",
                                 max: "99",
+                                background: "linear-gradient(to right, coral 0%, coral {value_slider1}%, #fff {value_slider1}%, white 100%)",
                                 value: "{value_slider1}",
                                 oninput: move |evt| {
                                     value_slider1.set(evt.value.clone().parse().unwrap());
@@ -73,6 +74,7 @@ pub fn Menu(cx: Scope) -> Element {
                                 "type": "range",
                                 min: "1",
                                 max: "100",
+                                background: "linear-gradient(to right, coral 0%, coral {value_slider2}%, #fff {value_slider2}%, white 100%)",
                                 value: "{value_slider2}",
                                 oninput: move |evt| {
                                     value_slider2.set(evt.value.clone().parse().unwrap());
@@ -99,6 +101,7 @@ pub fn Menu(cx: Scope) -> Element {
                                 "type": "range",
                                 min: "1",
                                 max: "100",
+                                background: "linear-gradient(to right, coral 0%, coral {value_slider3}%, #fff {value_slider3}%, white 100%)",
                                 value: "{value_slider3}",
                                 oninput: move |evt| {
                                     value_slider3.set(evt.value.clone().parse().unwrap());
