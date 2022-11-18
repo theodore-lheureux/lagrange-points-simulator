@@ -1,17 +1,29 @@
+use crate::components::mass_sliders::MassSliders;
+
+use super::mass::{MASS_MASSES, MASS_NAMES, MASS_VELOCITIES};
 use dioxus::prelude::*;
-
-use crate::MASS_LIST;
-
-// use super::mass::Mass;
 
 #[allow(non_snake_case)]
 pub fn Menu(cx: Scope) -> Element {
     let cog_icon = include_str!("../assets/icons/cog.svg");
     let show_menu = use_state(&cx, || "hide");
-    let mass_list = use_atom_ref(&cx, MASS_LIST);
     let value_slider1 = use_state(&cx, || 10);
     let value_slider2 = use_state(&cx, || 10);
     let value_slider3 = use_state(&cx, || 10);
+
+    let mass_names = use_atom_ref(&cx, MASS_NAMES).write();
+
+    let mut sorted_map: Vec<u32> = mass_names.into_keys().collect();
+    sorted_map.sort_unstable_by(|a, b| a.cmp(b));
+
+    let slider_list = rsx! {
+        sorted_map.iter().map(|k| rsx! {
+            li {
+                key: "{k}",
+                MassSliders { mass_id: k }
+            }
+        })
+    };
 
     cx.render(rsx!(
         style { [include_str!("../assets/style/menu.css")] },
@@ -105,6 +117,9 @@ pub fn Menu(cx: Scope) -> Element {
                         dangerous_inner_html: "{value_slider1} x (not actual time)",
                     }
 
+                }
+                ul {
+                    slider_list
                 }
             }
         }
