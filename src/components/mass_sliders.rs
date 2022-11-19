@@ -25,59 +25,59 @@ pub fn MassSliders(cx: Scope, id: u32) -> Element {
         div {
             "{name}"
         }
-        div {
-            class: "row",
-            label {
-                "for":"slider{id}mass",
-                "Mass of object"
-            }
+        form {
+            oninput: move |evt| {
+                use_atom_ref(&cx, MASS_MASSES).write().insert(*id, evt.values.get(&format!("slider{id}mass")).unwrap().clone().parse().unwrap());
+                use_atom_ref(&cx, MASS_VELOCITIES).write().insert(*id, evt.values.get(&format!("slider{id}velocity")).unwrap().clone().parse().unwrap());
+            },
             div {
-                class: "column",
-                input {
-                    id: "slider{id}mass",
-                    class: "slider",
-                    "type": "range",
-                    min: "1",
-                    max: "100",
-                    background: "linear-gradient(to right, coral 0%, coral {mass}%, #fff {mass}%, white 100%)",
-                    value: "{mass}",
-                    oninput: move |evt| {
-                        evt.cancel_bubble();
-                        use_atom_ref(&cx, MASS_MASSES).write().insert(*id, evt.value.clone().parse().unwrap());
-                    },
+                class: "row",
+                label {
+                    "for":"slider{id}mass",
+                    "Mass of object"
+                }
+                div {
+                    class: "column",
+                    input {
+                        id: "slider{id}mass",
+                        name: "slider{id}mass",
+                        class: "slider",
+                        "type": "range",
+                        min: "1",
+                        max: "100",
+                        background: "linear-gradient(to right, coral 0%, coral {mass}%, #fff {mass}%, white 100%)",
+                        value: "{mass}",
+                    }
+                }
+                p {
+                    class: "value",
+                    dangerous_inner_html: "{mass} kg",
                 }
             }
-            p {
-                class: "value",
-                dangerous_inner_html: "{mass} kg",
-            }
-        }
-        div {
-            class: "row",
-            label {
-                "for":"slider{id}velocity",
-                "Velocity of object"
-            }
             div {
-                class: "column",
-                input {
-                    id: "slider{id}velocity",
-                    class: "slider",
-                    "type": "range",
-                    min: "1",
-                    max: "100",
-                    background: "linear-gradient(to right, coral 0%, coral {velocity}%, #fff {velocity}%, white 100%)",
-                    value: "{velocity}",
-                    oninput: move |evt| {
-                        use_atom_ref(&cx, MASS_VELOCITIES).write().insert(*id, evt.value.clone().parse().unwrap());
-                    },
+                class: "row",
+                label {
+                    "for":"slider{id}velocity",
+                    "Velocity of object"
+                }
+                div {
+                    class: "column",
+                    input {
+                        id: "slider{id}velocity",
+                        class: "slider",
+                        name: "slider{id}velocity",
+                        "type": "range",
+                        min: "1",
+                        max: "100",
+                        background: "linear-gradient(to right, coral 0%, coral {velocity}%, #fff {velocity}%, white 100%)",
+                        value: "{velocity}",
+                    }
+                }
+                p {
+                    class: "value",
+                    dangerous_inner_html: "{velocity} m/s",
                 }
             }
-            p {
-                class: "value",
-                dangerous_inner_html: "{velocity} m/s",
-            }
         }
-
     })
 }
