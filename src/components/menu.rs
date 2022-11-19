@@ -1,26 +1,28 @@
-use crate::components::mass_sliders::MassSliders;
+use crate::components::{mass_sliders::MassSliders, mass::Mass};
 
-use super::mass::{MASS_MASSES, MASS_NAMES, MASS_VELOCITIES};
 use dioxus::prelude::*;
 
+use super::mass::{MASS_NAMES};
+
 #[allow(non_snake_case)]
+#[inline_props]
+// , mass_names: UseRef<HashMap<u32, String>>
 pub fn Menu(cx: Scope) -> Element {
     let cog_icon = include_str!("../assets/icons/cog.svg");
     let show_menu = use_state(&cx, || "hide");
     let value_slider1 = use_state(&cx, || 10);
-    let value_slider2 = use_state(&cx, || 10);
-    let value_slider3 = use_state(&cx, || 10);
 
-    let mass_names = use_atom_ref(&cx, MASS_NAMES).write();
+    let mass_names = use_atom_ref(&cx, MASS_NAMES);
 
-    let mut sorted_map: Vec<u32> = mass_names.into_keys().collect();
+
+    let mut sorted_map: Vec<u32> = mass_names.read().clone().into_keys().collect();
     sorted_map.sort_unstable_by(|a, b| a.cmp(b));
 
     let slider_list = rsx! {
-        sorted_map.iter().map(|k| rsx! {
+        sorted_map.into_iter().map(|k| rsx! {
             li {
                 key: "{k}",
-                MassSliders { mass_id: k }
+                MassSliders { id: k }
             }
         })
     };
@@ -39,58 +41,6 @@ pub fn Menu(cx: Scope) -> Element {
             }
             div {
                 class: "menu-content {show_menu}",
-                div {
-                    class: "row",
-                    label {
-                        "for":"slider2",
-                        "Mass of 1st object"
-                    }
-                    div {
-                        class: "column",
-                        input {
-                            id: "slider2",
-                            class: "slider",
-                            "type": "range",
-                            min: "1",
-                            max: "100",
-                            background: "linear-gradient(to right, coral 0%, coral {value_slider2}%, #fff {value_slider2}%, white 100%)",
-                            value: "{value_slider2}",
-                            oninput: move |evt| {
-                                value_slider2.set(evt.value.clone().parse().unwrap());
-                            },
-                        }
-                    }
-                    p {
-                        class: "value",
-                        dangerous_inner_html: "{value_slider2} kg",
-                    }
-                }
-                div {
-                    class: "row",
-                    label {
-                        "for":"slider3",
-                        "Mass of 2nd object"
-                    }
-                    div {
-                        class: "column",
-                        input {
-                            id: "slider3",
-                            class: "slider",
-                            "type": "range",
-                            min: "1",
-                            max: "100",
-                            background: "linear-gradient(to right, coral 0%, coral {value_slider3}%, #fff {value_slider3}%, white 100%)",
-                            value: "{value_slider3}",
-                            oninput: move |evt| {
-                                value_slider3.set(evt.value.clone().parse().unwrap());
-                            }
-                        }
-                    }
-                    p {
-                        class: "value",
-                        dangerous_inner_html: "{value_slider3} kg",
-                    }
-                }
                 div {
                     class: "row",
                     label {
@@ -121,6 +71,13 @@ pub fn Menu(cx: Scope) -> Element {
                 ul {
                     slider_list
                 }
+                button {
+                    onclick: move |_| { 
+                        Mass::build(&cx, String::from("Mass 1"), 10, 10);
+                    },
+                    "Add Mass"
+                }
+
             }
         }
     ))
