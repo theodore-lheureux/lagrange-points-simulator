@@ -1,8 +1,11 @@
-use crate::components::{mass_sliders::MassSliders, mass::Mass};
+use crate::components::{mass::Mass, menu::{mass_sliders::MassSliders, tabs::Tabs}};
 
 use dioxus::prelude::*;
 
 use super::mass::{MASS_NAMES};
+
+pub mod tabs;
+pub mod mass_sliders;
 
 #[allow(non_snake_case)]
 #[inline_props]
@@ -36,9 +39,10 @@ pub fn Menu(cx: Scope) -> Element {
         }
         div {
             class: "menu {show_menu}",
-            h1 {
-                "Parameters :"
-            }
+            Tabs {}
+            // h1 {
+            //     "Parameters :"
+            // }
             div {
                 class: "menu-content {show_menu}",
                 div {
@@ -69,7 +73,7 @@ pub fn Menu(cx: Scope) -> Element {
 
                 }
                 ul {
-                    slider_list
+                    //slider_list
                 }
                 button {
                     onclick: move |_| { 

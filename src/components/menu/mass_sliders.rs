@@ -1,6 +1,7 @@
 use dioxus::prelude::*;
 
-use super::mass::{MASS_MASSES, MASS_NAMES, MASS_VELOCITIES};
+use crate::components::mass::{MASS_VELOCITIES, MASS_MASSES, MASS_NAMES};
+
 
 #[allow(non_snake_case)]
 #[inline_props]
